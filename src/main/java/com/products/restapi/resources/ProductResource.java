@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.products.restapi.error.ResourceNotFoundException;
 import com.products.restapi.models.Product;
 import com.products.restapi.repository.ProductRepository;
 
@@ -34,10 +35,11 @@ public class ProductResource {
 		 return productRepository.findAll();
 	}
 	
-	@GetMapping("/products/{id}")
+	@GetMapping("/products/{id}")	 
 	@ApiOperation(value="Returns a unique product")
 	public Product getProduct(@PathVariable(value="id")long id) {
-		 return productRepository.findById(id);
+		verifyIfProductExists(id); 
+		return productRepository.findById(id);
 	}
 	
 	@PostMapping("/product")
@@ -49,12 +51,19 @@ public class ProductResource {
 	@DeleteMapping("/product")
 	@ApiOperation(value="Delete a product")
 	public void deleteProduct(@RequestBody Product product) {
+		verifyIfProductExists(product.getId());
 		productRepository.delete(product);
 	}
 	
 	@PutMapping("/product")
 	@ApiOperation(value="Updates a product")
 	public Product updateProduct(@RequestBody Product product) {
+		verifyIfProductExists(product.getId());
 		return productRepository.save(product);
+	}
+	
+	private void verifyIfProductExists(Long id) {
+		 if (productRepository.findById(id) == null)
+			 throw new ResourceNotFoundException("Product not found for ID: " + id);
 	}
 }
