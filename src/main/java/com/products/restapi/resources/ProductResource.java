@@ -62,8 +62,8 @@ public class ProductResource {
 		return productRepository.save(product);
 	}
 	
-	private void verifyIfProductExists(Long id) {
-		 if (productRepository.findById(id) == null)
-			 throw new ResourceNotFoundException("Product not found for ID: " + id);
+	private void verifyIfProductExists(long id) {
+		if (productRepository.findById(id) == null)
+			throw new ResourceNotFoundException("Product not found for ID: " + id);
 	}
 }
