@@ -48,11 +48,11 @@ public class ProductResource {
 		return productRepository.save(product);
 	}
 	
-	@DeleteMapping("/product")
+	@DeleteMapping("/product/{id}")
 	@ApiOperation(value="Delete a product")
-	public void deleteProduct(@RequestBody Product product) {
-		verifyIfProductExists(product.getId());
-		productRepository.delete(product);
+	public void deleteProduct(@PathVariable(value="id")long id) {
+		verifyIfProductExists(id);
+		productRepository.deleteById(id);
 	}
 	
 	@PutMapping("/product")
