@@ -2,6 +2,8 @@ package com.products.restapi.resources;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -44,7 +46,7 @@ public class ProductResource {
 	
 	@PostMapping("/product")
 	@ApiOperation(value="Create a product")
-	public Product postProduct(@RequestBody Product product) {
+	public Product postProduct(@Valid @RequestBody Product product) {
 		return productRepository.save(product);
 	}
 	
